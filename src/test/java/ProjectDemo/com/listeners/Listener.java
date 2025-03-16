@@ -9,6 +9,8 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Optional;
 @Log4j2
 public class Listener implements TestWatcher {
@@ -44,9 +46,10 @@ public class Listener implements TestWatcher {
         log.info("This test was failed: " + cause.getMessage());
         try {
             log.info("Taking screenshot for failed assert");
+            var date = new SimpleDateFormat("yyyyMMddhhmm").format(new Date());
             String screenshotPath = System.getProperty("user.dir") + "/target/Screenshots/";
             File src = ((TakesScreenshot) Driver.getDriver()).getScreenshotAs(OutputType.FILE);
-            String screenshotName = "screenshot_" + context.getDisplayName() + ".png";
+            String screenshotName = "screenshot_" + context.getDisplayName().replaceAll("\\s", "") + "_" + date + ".png";
             screenshotPath = screenshotPath + File.separator + screenshotName;
             File destFile = new File(screenshotPath);
             FileUtils.copyFile(src, destFile);
