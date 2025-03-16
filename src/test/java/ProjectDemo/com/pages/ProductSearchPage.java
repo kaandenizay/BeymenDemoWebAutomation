@@ -10,8 +10,6 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 import java.util.Random;
 
-import static org.junit.Assert.assertEquals;
-
 
 @Log4j2
 public class ProductSearchPage extends BasePage {
