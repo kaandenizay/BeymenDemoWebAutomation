@@ -28,7 +28,7 @@ public class BeymenMainPage extends BasePage {
     private WebElement searchInput;
     @FindBy(className = "o-header__search--close")
     private WebElement clearTextButton;
-    @FindBy(className = "//div[contains(@class,'genderPopup')]")
+    @FindBy(xpath = "//div[contains(@class,'genderPopup')]")
     private List<WebElement> genderPopup;
 
 
