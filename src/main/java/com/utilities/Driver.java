@@ -28,6 +28,8 @@ public class Driver {
                 default -> new ChromeDriver(chromeOptions());
             });
         }
+        driverPool.get().manage().timeouts().getPageLoadTimeout();
+        driverPool.get().manage().window().maximize();
         return driverPool.get();
     }
 

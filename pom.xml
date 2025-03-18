@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.example</groupId>
-    <artifactId>Cucumber</artifactId>
+    <artifactId>BeymenDemoWebProject</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -71,7 +71,6 @@
         </dependency>
 
 
-
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
@@ -81,9 +80,22 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>5.7.0</version>
+            <version>5.7.2</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.7.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.7.2</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
 
@@ -93,52 +105,57 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-
-
-                <version>3.0.0-M5</version>
-
+                <version>3.5.2</version>
                 <dependencies>
                     <dependency>
                         <groupId>org.apache.maven.surefire</groupId>
-                        <artifactId>surefire-junit47</artifactId>
-                        <version>3.0.0-M5</version>
+                        <artifactId>surefire-junit-platform</artifactId>
+                        <version>3.5.2</version>
                     </dependency>
                 </dependencies>
 
+                <!-- This config for JUnit Run -->
+                <!--                <configuration>-->
+                <!--                    <parallel>methods</parallel>-->
+                <!--                    <threadCount>4</threadCount>-->
+                <!--                    <includes>-->
+                <!--                        <include>**/*Tests.java</include> &lt;!&ndash; Ensure test class pattern &ndash;&gt;-->
+                <!--                    </includes>-->
+                <!--                </configuration>-->
                 <configuration>
                     <parallel>methods</parallel>
                     <threadCount>4</threadCount>
                     <perCoreThreadCount>false</perCoreThreadCount>
                     <testFailureIgnore>false</testFailureIgnore>
                     <rerunFailingTestsCount>3</rerunFailingTestsCount>
-                    <includes>
-                        <include>/FailedTestRunner.java</include>
-                        <include>/CukesRunner.java</include>
-                    </includes>
+                    <!--                    <includes>-->
+                    <!--                        <include>/FailedTestRunner.java</include>-->
+                    <!--                        <include>/CukesRunner.java</include>-->
+                    <!--                    </includes>-->
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>net.masterthought</groupId>
-                <artifactId>maven-cucumber-reporting</artifactId>
-                <version>5.7.4</version>
-                <executions>
-                    <execution>
-                        <id>execution</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <projectName>beymen-demo</projectName>
-                            <outputDirectory>${project.build.directory}</outputDirectory>
-                            <inputDirectory>${project.build.directory}</inputDirectory>
-                            <jsonFiles>
-                                <param>/cucumber*.json</param>
-                            </jsonFiles>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+                        <plugin>
+                            <groupId>net.masterthought</groupId>
+                            <artifactId>maven-cucumber-reporting</artifactId>
+                            <version>5.7.4</version>
+                            <executions>
+                                <execution>
+                                    <id>execution</id>
+                                    <phase>verify</phase>
+                                    <goals>
+                                        <goal>generate</goal>
+                                    </goals>
+                                    <configuration>
+                                        <projectName>beymen-demo</projectName>
+                                        <outputDirectory>${project.build.directory}</outputDirectory>
+                                        <inputDirectory>${project.build.directory}</inputDirectory>
+                                        <jsonFiles>
+                                            <param>/cucumber*.json</param>
+                                        </jsonFiles>
+                                    </configuration>
+                                </execution>
+                            </executions>
+                        </plugin>
         </plugins>
     </build>
 </project>

@@ -16,15 +16,9 @@ public class BaseTests {
 
     protected WebDriver driver;
 
-    @BeforeAll
-    public void setup() {
-        log.info("-----Tests are starting-----");
-        Driver.getDriver().manage().timeouts().getPageLoadTimeout();
-        Driver.getDriver().manage().window().maximize();
-    }
-
     @BeforeEach
     public void callDriver(){
+        log.info("-----Test is  starting-----");
         Driver.getDriver().get(ConfigurationReader.getProperty("beymen.url"));
         log.debug("-----Navigating main page-----");
         driver = Driver.getDriver();
@@ -32,7 +26,7 @@ public class BaseTests {
     }
 
     @AfterEach
-    public static void terminateTest(TestInfo testInfo){
+    public void terminateTest(TestInfo testInfo){
         Utils.takeScreenshot(testInfo.getDisplayName());
         Driver.closeDriver();
         log.info("-----Tests are completed-----");

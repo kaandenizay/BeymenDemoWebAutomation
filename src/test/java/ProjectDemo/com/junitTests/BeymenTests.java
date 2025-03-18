@@ -11,10 +11,10 @@ import org.junit.jupiter.api.*;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class BeymenTests extends BaseTests{
 
-    static BeymenMainPage beymenMainPage;
-    static ProductDetailPage productDetailPage;
-    static ProductSearchPage productSearchPage;
-    static ShoppingCartPage shoppingCartPage;
+    BeymenMainPage beymenMainPage;
+    ProductDetailPage productDetailPage;
+    ProductSearchPage productSearchPage;
+    ShoppingCartPage shoppingCartPage;
 
     @BeforeEach
     public void initializePages(){
