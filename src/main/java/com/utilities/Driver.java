@@ -31,27 +31,16 @@ public class Driver {
         return driverPool.get();
     }
 
-    /// Following method should be uncomment if we run in Cucumber
-
-//    public static void closeDriver() {
-//        if (driverPool.get() != null) {
-//            try {
-//                System.out.println("This is Driver class line 38");
-//                driverPool.get().quit();
-//            } catch (Exception e) {
-//                System.out.println("Error when quitting the driver: " + e.getMessage());
-//            }
-//            driverPool.remove();
-//        }
-//    }
-
-    public static void quitDriver() {
+    public static void closeDriver() {
         if (driverPool.get() != null) {
-            getDriver().quit();
+            try {
+                System.out.println("This is Driver class line 38");
+                driverPool.get().quit();
+            } catch (Exception e) {
+                System.out.println("Error when quitting the driver: " + e.getMessage());
+            }
+            driverPool.remove();
         }
-    }
-    public static void removeThreadPool() {
-        driverPool.remove();
     }
 
     public static ChromeOptions chromeOptions() {

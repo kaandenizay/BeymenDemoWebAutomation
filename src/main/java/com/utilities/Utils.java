@@ -1,19 +1,24 @@
 package com.utilities;
 
-import org.apache.commons.io.FileUtils;
+import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.*;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.*;
 
-import static com.utilities.Driver.getDriver;
+
 import static com.utilities.Constant.GLOBAL_TIME_OUT;
+import static com.utilities.Driver.getDriver;
+
+@Log4j2
 public class Utils {
+
+    public static File src;
+    public static File destFile;
 
     public static void clearEnterText(WebElement element, String inputText) {
         element.clear();
@@ -21,7 +26,7 @@ public class Utils {
     }
 
     public static String getPageUrl() {
-       return getDriver().getCurrentUrl();
+        return getDriver().getCurrentUrl();
     }
 
     public static void fillInput(WebElement element, String text) {
@@ -48,7 +53,7 @@ public class Utils {
     }
 
     public static WebElement getElement(Object element) {
-        if(element instanceof WebElement) {
+        if (element instanceof WebElement) {
             return new WebDriverWait(getDriver(), Duration.ofSeconds(GLOBAL_TIME_OUT)).until(ExpectedConditions.visibilityOf((WebElement) element));
         } else {
             return new WebDriverWait(getDriver(), Duration.ofSeconds(GLOBAL_TIME_OUT)).until(ExpectedConditions.visibilityOfElementLocated((By) element));
@@ -56,20 +61,20 @@ public class Utils {
     }
 
     public static String getElementValueByJS(WebElement webElement) {
-        JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
 
         String elementText = (String) js.executeScript("return arguments[0].value;", webElement);
         return elementText;
     }
 
-    public static String getScreenshot(String name) throws IOException {
-        var date = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date());
-        var ts = (TakesScreenshot) getDriver();
-        var source = ts.getScreenshotAs(OutputType.FILE);
-        var target = System.getProperty("user.dir") + "/target/Screenshots/" + name + date + ".png";
-        var finalDestination = new File(target);
-        FileUtils.copyFile(source, finalDestination);
-        return target;
+    public static void takeScreenshot(String testName) {
+        log.info("Taking screenshot for failed assert");
+        var date = new SimpleDateFormat("yyyyMMddhhmm").format(new Date());
+        String screenshotPath = System.getProperty("user.dir") + "/target/Screenshots/";
+        src = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE);
+        String screenshotName = "screenshot_" + testName.replaceAll("\\s", "") + "_" + date + ".png";
+        screenshotPath = screenshotPath + File.separator + screenshotName;
+        destFile = new File(screenshotPath);
     }
 
     public static void highlightElement(WebElement element) {
@@ -79,7 +84,7 @@ public class Utils {
     }
 
     public static void performKeyboardSendKey(WebElement webElement, String keys) {
-        Actions actions = new Actions(Driver.getDriver());
+        Actions actions = new Actions(getDriver());
         actions.moveToElement(webElement).click().sendKeys(keys)
                 .build()
                 .perform();
@@ -128,15 +133,15 @@ public class Utils {
     }
 
     public static void switchToWindowNew(int number) {
-        List<String> tumWindowHandles = new ArrayList<String>(Driver.getDriver().getWindowHandles());
-        Driver.getDriver().switchTo().window(tumWindowHandles.get(number));
-        Driver.getDriver().manage().window().maximize();
+        List<String> tumWindowHandles = new ArrayList<String>(getDriver().getWindowHandles());
+        getDriver().switchTo().window(tumWindowHandles.get(number));
+        getDriver().manage().window().maximize();
         sleep(3);
     }
 
     public static void switchToLastWindow() {
-        List<String> tumWindowHandles = new ArrayList<String>(Driver.getDriver().getWindowHandles());
-        Driver.getDriver().switchTo().window(tumWindowHandles.getLast());
+        List<String> tumWindowHandles = new ArrayList<String>(getDriver().getWindowHandles());
+        getDriver().switchTo().window(tumWindowHandles.getLast());
     }
 
     public static WebElement waitForClickablility(WebElement element) {
@@ -151,14 +156,17 @@ public class Utils {
         ExpectedCondition<Boolean> expectation = driver -> ((JavascriptExecutor) getDriver()).executeScript("return document.readyState").equals("complete");
         try {
             new WebDriverWait(getDriver(), Duration.ofSeconds(GLOBAL_TIME_OUT)).until(expectation);
-        } catch (Throwable ignored) {}
+        } catch (Throwable ignored) {
+        }
     }
+
     public static WebElement waitForVisibility(By locator, int timeout) {
-        WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(timeout));
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(timeout));
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
+
     public static WebElement waitForVisibility(WebElement element, int timeout) {
-        WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(timeout));
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(timeout));
         return wait.until(ExpectedConditions.visibilityOf(element));
     }
 
