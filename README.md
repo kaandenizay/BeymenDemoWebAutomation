@@ -16,7 +16,7 @@
 6. **Maven**: Dependency management and build automation tool for the project.
 7. **Jenkins:** Continuous Integration (CI) tool for automating test execution and deployments.
 8. **Git**: Version control system for tracking changes and collaborating on the project.
-9**Log4j2**: For logging information during test execution.
+9. **Log4j2**: For logging information during test execution.
 
 
 
